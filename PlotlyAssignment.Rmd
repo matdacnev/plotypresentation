@@ -1,0 +1,36 @@
+---
+title: "Plotly Presentation"
+author: "Mat Dac"
+date: "December 28, 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include=T, echo=T, warning=F, message=F, cache=T)
+setwd("~/Work/Training/DataProdCoursera.R")
+```
+
+## Data
+
+The plot on the next slide shows the price of bitcoin in 2017. But first these libraries need to be loaded. 
+
+```{r library}
+library(plotly)
+library(quantmod)
+```
+
+The daily prices are downloaded with the package quantmod.
+
+```{r data}
+Bitcoin = window(getSymbols('BTCUSD=X', auto.assign=F), start="2017-01-01")
+Df = data.frame(Date=index(Bitcoin), coredata(Bitcoin))
+```
+
+## Interactive Plot
+
+The plot shows the daily price of bitcoin. The slider below the plot can be used to adjust the time window.
+
+```{r plot, echo=F}
+Df %>% plot_ly(x=~Date, type="ohlc", open = ~BTCUSD.X.Open, close = ~BTCUSD.X.Close, high = ~BTCUSD.X.High, low = ~BTCUSD.X.Low)
+```
+
